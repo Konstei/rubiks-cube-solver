@@ -1,0 +1,15 @@
+/workspaces/rubiks-cube-solver/bin/Debug/net7.0/Rubik's Cube Solver
+/workspaces/rubiks-cube-solver/bin/Debug/net7.0/Rubik's Cube Solver.deps.json
+/workspaces/rubiks-cube-solver/bin/Debug/net7.0/Rubik's Cube Solver.runtimeconfig.json
+/workspaces/rubiks-cube-solver/bin/Debug/net7.0/Rubik's Cube Solver.dll
+/workspaces/rubiks-cube-solver/bin/Debug/net7.0/Rubik's Cube Solver.pdb
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.csproj.AssemblyReference.cache
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.AssemblyInfoInputs.cache
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.AssemblyInfo.cs
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.csproj.CoreCompileInputs.cache
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.dll
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/refint/Rubik's Cube Solver.dll
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.pdb
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/Rubik's Cube Solver.genruntimeconfig.cache
+/workspaces/rubiks-cube-solver/obj/Debug/net7.0/ref/Rubik's Cube Solver.dll
