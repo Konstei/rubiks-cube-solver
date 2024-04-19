@@ -33,9 +33,6 @@
             }
         );
         
-        /* foreach (Cube.Color color in Enum.GetValues(typeof(Cube.Color))) {
-            Console.WriteLine($"{(int) color} {color}");
-        } */
-        Console.WriteLine($"{Cube.Color.WHITE}");
+        WhiteCross.Solve(cube);
     }
 }

@@ -24,21 +24,19 @@ public class Cube {
             new() { Color.NONE,  Faces[5][3], Faces[5][1], Faces[5][4], Faces[5][6], Color.NONE  }
         };
         Corners = new() {
-            new() {
-                new() { Faces[0][5], Faces[1][2], Faces[2][0] },
-                new() { Faces[0][7], Faces[2][2], Faces[3][0] },
-                new() { Faces[0][2], Faces[3][2], Faces[4][0] },
-                new() { Faces[0][0], Faces[4][2], Faces[1][0] }
-            },
-            new() {
-                new() { Faces[5][0], Faces[1][7], Faces[2][5] },
-                new() { Faces[5][2], Faces[2][7], Faces[3][5] },
-                new() { Faces[5][7], Faces[3][7], Faces[4][5] },
-                new() { Faces[5][5], Faces[4][7], Faces[1][5] }
-            },
+            new() { Faces[0][5], Faces[1][2], Faces[2][0] },
+            new() { Faces[0][7], Faces[2][2], Faces[3][0] },
+            new() { Faces[0][2], Faces[3][2], Faces[4][0] },
+            new() { Faces[0][0], Faces[4][2], Faces[1][0] },
+            new() { Faces[5][0], Faces[1][7], Faces[2][5] },
+            new() { Faces[5][2], Faces[2][7], Faces[3][5] },
+            new() { Faces[5][7], Faces[3][7], Faces[4][5] },
+            new() { Faces[5][5], Faces[4][7], Faces[1][5] }
         };
     }
 
+    // N. O.
+    // EW
     public void Validate() {
         // check that each color appears exactly 9 times
         int whiteCount = 0, orangeCount = 0, greenCount = 0, redCount = 0, blueCount = 0, yellowCount = 0;
@@ -70,18 +68,57 @@ public class Cube {
             throw new InvalidCubeConfigurationException("Each color must appear exactly 9 times, including the center");
         }
 
+        // check corners and corner twists
+        int twists = 0;
+        Dictionary<(Color, Color, Color), int> validCorners = new() {
+            { ( Color.WHITE,  Color.ORANGE, Color.GREEN  ), 0 },
+            { ( Color.WHITE,  Color.GREEN,  Color.RED    ), 0 },
+            { ( Color.WHITE,  Color.RED,    Color.BLUE   ), 0 },
+            { ( Color.WHITE,  Color.BLUE,   Color.ORANGE ), 0 },
+            { ( Color.YELLOW, Color.ORANGE, Color.GREEN  ), 0 },
+            { ( Color.YELLOW, Color.GREEN,  Color.RED    ), 0 },
+            { ( Color.YELLOW, Color.RED,    Color.BLUE   ), 0 },
+            { ( Color.YELLOW, Color.BLUE,   Color.ORANGE ), 0 }
+        };
+        foreach (List<Color> corner in Corners) {
+            Color[] colors = { corner[0], corner[1], corner[2] };
+            if (!validCorners.ContainsKey((colors[0], colors[1], colors[2]))) {
+                throw new InvalidCubeConfigurationException($"Corner cannot exist ( {colors[0]}, {colors[1]}, {colors[2]} )");
+            }
+            validCorners[(colors[0], colors[1], colors[2])]++;
+            if (validCorners[(colors[0], colors[1], colors[2])] > 1) {
+                throw new InvalidCubeConfigurationException($"A corner cannot exist more than once, ( {colors[0]}, {colors[1]} ) appears {validCorners[(colors[0], colors[1], colors[2])]} times");
+            }
+            if (corner.Contains(Color.WHITE)) {
+                if (corner[1] == Color.WHITE) twists++;
+                else if (corner[2] == Color.WHITE) twists += 2;
+            } else {
+                if (corner[1] == Color.YELLOW) twists += 2;
+                else if (corner[2] == Color.YELLOW) twists++;
+            }
+        }
+        if (twists % 3 != 0) {
+            throw new InvalidCubeConfigurationException(
+                "One or more of the corners is twisted. Please check your cube and try again.\n" +
+                "Indications: Take two opposite colors and calculate the sum of the twists it takes for each corner to\n" +
+                "    a) get one of those colors on the face with of the same color or on the face of its opposite color\n" +
+                "    b) or to do the same to its opposite color if the first color is not present\n" +
+                "If that sum modulo 3 is different than 0, the cube is unsolvable."
+            );
+        }
+
         // check color adjacency on all edges
-        Dictionary<(Color, Color), int> adjacentEdges = new() {
+        Dictionary<(Color, Color), int> validEdges = new() {
             { ( Color.WHITE,  Color.ORANGE ), 0 },
             { ( Color.WHITE,  Color.GREEN  ), 0 },
             { ( Color.WHITE,  Color.RED    ), 0 },
             { ( Color.WHITE,  Color.BLUE   ), 0 },
             { ( Color.ORANGE, Color.GREEN  ), 0 },
             { ( Color.ORANGE, Color.BLUE   ), 0 },
-            { ( Color.GREEN,  Color.RED    ), 0 },
-            { ( Color.RED,    Color.BLUE   ), 0 },
             { ( Color.ORANGE, Color.YELLOW ), 0 },
+            { ( Color.GREEN,  Color.RED    ), 0 },
             { ( Color.GREEN,  Color.YELLOW ), 0 },
+            { ( Color.RED,    Color.BLUE   ), 0 },
             { ( Color.RED,    Color.YELLOW ), 0 },
             { ( Color.BLUE,   Color.YELLOW ), 0 },
         };
@@ -92,27 +129,27 @@ public class Cube {
             (0, 4),
             (1, 2),
             (1, 4),
-            (2, 3),
-            (3, 4),
             (1, 5),
+            (2, 3),
             (2, 5),
+            (3, 4),
             (3, 5),
             (4, 5)
         };
         foreach ((int, int) edge in edges) {
-            Color color1 = Edges[edge.Item1][edge.Item2];
-            Color color2 = Edges[edge.Item2][edge.Item1];
-            if (!adjacentEdges.ContainsKey((color1, color2))) {
-                throw new InvalidCubeConfigurationException($"Edge cannot exist\n( {color1}, {color2} )");
+            Color[] colors = { Edges[edge.Item1][edge.Item2], Edges[edge.Item2][edge.Item1] };
+            Array.Sort(colors);
+            if (!validEdges.ContainsKey((colors[0], colors[1]))) {
+                throw new InvalidCubeConfigurationException($"Edge cannot exist ( {colors[0]}, {colors[1]} )");
             }
-            adjacentEdges[(color1, color2)]++;
-            if (adjacentEdges[(color1, color2)] > 1) {
-                throw new InvalidCubeConfigurationException($"An edge cannot exist more than once\n( {color1}, {color2} ) appears {adjacentEdges[(color1, color2)]} times");
+            validEdges[(colors[0], colors[1])]++;
+            if (validEdges[(colors[0], colors[1])] > 1) {
+                throw new InvalidCubeConfigurationException($"An edge cannot exist more than once, ( {colors[0]}, {colors[1]} ) appears {validEdges[(colors[0], colors[1])]} times");
             }
         }
     }
 
-    public void Rotate(Color face) {
+    public void RotateFace(Color face, bool skip = false) {
         int index = (int) face - 1;
         Faces[index] = new() {
             Faces[index][5], Faces[index][3], Faces[index][0],
@@ -248,8 +285,83 @@ public class Cube {
 
             break;
         }
+
+        if (skip) return;
+
         Configure();
     }
+
+    // i am most sure i won't need this one
+    /* public void RotateSlice(Color face, bool skip = false) {
+        Color tmp;
+        switch (face) {
+        case Color.WHITE:
+            tmp = Faces[1][2];
+            Faces[1][2] = Faces[2][2];
+            Faces[2][2] = Faces[3][2];
+            Faces[3][2] = Faces[4][2];
+            Faces[4][2] = tmp;
+            
+            tmp = Faces[1][1];
+            Faces[1][1] = Faces[2][1];
+            Faces[2][1] = Faces[3][1];
+            Faces[3][1] = Faces[4][1];
+            Faces[4][1] = tmp;
+
+            tmp = Faces[1][0];
+            Faces[1][0] = Faces[2][0];
+            Faces[2][0] = Faces[3][0];
+            Faces[3][0] = Faces[4][0];
+            Faces[4][0] = tmp;
+            
+            break;
+        case Color.ORANGE:
+            break;
+        case Color.GREEN:
+            break;
+        case Color.RED:
+            break;
+        case Color.BLUE:
+            break;
+        case Color.YELLOW:
+            break;
+        }
+
+        if (skip) return;
+
+        Configure();
+    } */
+
+    // i really believe i will not be needing this
+    /* public void RotateCube(Color axis) {
+        int index = (int) axis - 1;
+        switch (axis) {
+        case Color.WHITE:
+            RotateFace(Color.WHITE, skip: true);
+            for (int i=0; i<3; i++) RotateFace(Color.YELLOW, skip: true);
+            break;
+        case Color.ORANGE:
+            RotateFace(Color.ORANGE, skip: true);
+            for (int i=0; i<3; i++) RotateFace(Color.RED, skip: true);
+            break;
+        case Color.GREEN:
+            RotateFace(Color.GREEN, skip: true);
+            for (int i=0; i<3; i++) RotateFace(Color.BLUE, skip: true);
+            break;
+        case Color.RED:
+            RotateFace(Color.RED, skip: true);
+            for (int i=0; i<3; i++) RotateFace(Color.ORANGE, skip: true);
+            break;
+        case Color.BLUE:
+            RotateFace(Color.BLUE, skip: true);
+            for (int i=0; i<3; i++) RotateFace(Color.GREEN, skip: true);
+            break;
+        case Color.YELLOW:
+            RotateFace(Color.YELLOW, skip: true);
+            for (int i=0; i<3; i++) RotateFace(Color.WHITE, skip: true);
+            break;
+        }
+    } */
 
     public enum Color {
         NONE, WHITE, ORANGE, GREEN, RED, BLUE, YELLOW
@@ -259,7 +371,7 @@ public class Cube {
     private Color _top = Color.WHITE;
     private List<List<Color>> _faces = new();
     private List<List<Color>> _edges = new();
-    private List<List<List<Color>>> _corners = new();
+    private List<List<Color>> _corners = new();
 
     public Color Front {
         get { return _front; }
@@ -277,7 +389,7 @@ public class Cube {
         get { return _edges; }
         set { _edges = value; }
     }
-    public List<List<List<Color>>> Corners {
+    public List<List<Color>> Corners {
         get { return _corners; }
         set { _corners = value; }
     }
