@@ -14,7 +14,7 @@ public class Cube {
         Validate();
     }
 
-    private void Configure() {
+    public void Configure() {
         Edges = new() {
             new() { Color.NONE,  Faces[0][3], Faces[0][6], Faces[0][4], Faces[0][1], Color.NONE  },
             new() { Faces[1][1], Color.NONE,  Faces[1][4], Color.NONE,  Faces[1][3], Faces[1][6] },
@@ -65,7 +65,7 @@ public class Cube {
             }
         }
         if (whiteCount != 8 || orangeCount != 8 || greenCount != 8 || redCount != 8 || blueCount != 8 || yellowCount != 8) {
-            throw new InvalidCubeConfigurationException("Each color must appear exactly 9 times, including the center");
+            throw new InvalidCubeException("Each color must appear exactly 9 times, including the center");
         }
 
         // check corners and corner twists
@@ -83,11 +83,11 @@ public class Cube {
         foreach (List<Color> corner in Corners) {
             Color[] colors = { corner[0], corner[1], corner[2] };
             if (!validCorners.ContainsKey((colors[0], colors[1], colors[2]))) {
-                throw new InvalidCubeConfigurationException($"Corner cannot exist ( {colors[0]}, {colors[1]}, {colors[2]} )");
+                throw new InvalidCubeException($"Corner cannot exist ( {colors[0]}, {colors[1]}, {colors[2]} )");
             }
             validCorners[(colors[0], colors[1], colors[2])]++;
             if (validCorners[(colors[0], colors[1], colors[2])] > 1) {
-                throw new InvalidCubeConfigurationException($"A corner cannot exist more than once, ( {colors[0]}, {colors[1]} ) appears {validCorners[(colors[0], colors[1], colors[2])]} times");
+                throw new InvalidCubeException($"A corner cannot exist more than once, ( {colors[0]}, {colors[1]} ) appears {validCorners[(colors[0], colors[1], colors[2])]} times");
             }
             if (corner.Contains(Color.WHITE)) {
                 if (corner[1] == Color.WHITE) twists++;
@@ -98,7 +98,7 @@ public class Cube {
             }
         }
         if (twists % 3 != 0) {
-            throw new InvalidCubeConfigurationException(
+            throw new InvalidCubeException(
                 "One or more of the corners is twisted. Please check your cube and try again.\n" +
                 "Indications: Take two opposite colors and calculate the sum of the twists it takes for each corner to\n" +
                 "    a) get one of those colors on the face with of the same color or on the face of its opposite color\n" +
@@ -140,17 +140,17 @@ public class Cube {
             Color[] colors = { Edges[edge.Item1][edge.Item2], Edges[edge.Item2][edge.Item1] };
             Array.Sort(colors);
             if (!validEdges.ContainsKey((colors[0], colors[1]))) {
-                throw new InvalidCubeConfigurationException($"Edge cannot exist ( {colors[0]}, {colors[1]} )");
+                throw new InvalidCubeException($"Edge cannot exist ( {colors[0]}, {colors[1]} )");
             }
             validEdges[(colors[0], colors[1])]++;
             if (validEdges[(colors[0], colors[1])] > 1) {
-                throw new InvalidCubeConfigurationException($"An edge cannot exist more than once, ( {colors[0]}, {colors[1]} ) appears {validEdges[(colors[0], colors[1])]} times");
+                throw new InvalidCubeException($"An edge cannot exist more than once, ( {colors[0]}, {colors[1]} ) appears {validEdges[(colors[0], colors[1])]} times");
             }
         }
     }
 
-    public void RotateFace(Color face, bool skip = false) {
-        int index = (int) face - 1;
+    public void RotateFace(Color face, bool conf = false) {
+        int index = (int) face;
         Faces[index] = new() {
             Faces[index][5], Faces[index][3], Faces[index][0],
             Faces[index][6],                  Faces[index][1],
@@ -285,10 +285,9 @@ public class Cube {
 
             break;
         }
+        Moves.Add(face);
 
-        if (skip) return;
-
-        Configure();
+        if (conf) Configure();
     }
 
     // i am most sure i won't need this one
@@ -334,7 +333,7 @@ public class Cube {
 
     // i really believe i will not be needing this
     /* public void RotateCube(Color axis) {
-        int index = (int) axis - 1;
+        int index = (int) axis;
         switch (axis) {
         case Color.WHITE:
             RotateFace(Color.WHITE, skip: true);
@@ -363,8 +362,163 @@ public class Cube {
         }
     } */
 
+    public void Print() {
+        Console.ResetColor();
+        Console.Write("      ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][0]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][1]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][2]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        Console.ResetColor();
+        Console.Write("      ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][3]);
+        Console.Write("  ");
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][4]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        Console.ResetColor();
+        Console.Write("      ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][5]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][6]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[0][7]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][0]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][1]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][2]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][0]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][1]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][2]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][0]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][1]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][2]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][0]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][1]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][2]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][3]);
+        Console.Write("  ");
+        Console.BackgroundColor = ConsoleColor.DarkYellow;
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][4]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][3]);
+        Console.Write("  ");
+        Console.BackgroundColor = ConsoleColor.Green;
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][4]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][3]);
+        Console.Write("  ");
+        Console.BackgroundColor = ConsoleColor.Red;
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][4]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][3]);
+        Console.Write("  ");
+        Console.BackgroundColor = ConsoleColor.Blue;
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][4]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][5]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][6]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[1][7]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][5]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][6]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[2][7]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][5]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][6]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[3][7]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][5]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][6]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[4][7]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+
+        Console.ResetColor();
+        Console.Write("      ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][0]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][1]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][2]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        Console.ResetColor();
+        Console.Write("      ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][3]);
+        Console.Write("  ");
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][4]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+        Console.ResetColor();
+        Console.Write("      ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][5]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][6]);
+        Console.Write("  ");
+        Console.BackgroundColor = GetColorAsConsoleColor(Faces[5][7]);
+        Console.Write("  ");
+        Console.WriteLine();
+        Console.ResetColor();
+    }
+
+    private ConsoleColor GetColorAsConsoleColor(Color color) {
+        switch (color) {
+            case Color.WHITE:  return ConsoleColor.White;
+            case Color.ORANGE: return ConsoleColor.DarkYellow;
+            case Color.GREEN:  return ConsoleColor.Green;
+            case Color.RED:    return ConsoleColor.Red;
+            case Color.BLUE:   return ConsoleColor.Blue;
+            case Color.YELLOW: return ConsoleColor.Yellow;
+            default: return ConsoleColor.Black;
+        }
+    }
+
     public enum Color {
-        NONE, WHITE, ORANGE, GREEN, RED, BLUE, YELLOW
+        NONE=-1, WHITE, ORANGE, GREEN, RED, BLUE, YELLOW
     }
 
     private Color _front = Color.GREEN;
@@ -372,6 +526,8 @@ public class Cube {
     private List<List<Color>> _faces = new();
     private List<List<Color>> _edges = new();
     private List<List<Color>> _corners = new();
+
+    private List<Color> _moves = new();
 
     public Color Front {
         get { return _front; }
@@ -393,14 +549,19 @@ public class Cube {
         get { return _corners; }
         set { _corners = value; }
     }
+
+    public List<Color> Moves {
+        get { return _moves; }
+        set { _moves = value; }
+    }
 }
 
 
 [Serializable]
-class InvalidCubeConfigurationException : Exception {
-    public InvalidCubeConfigurationException() {}
+class InvalidCubeException : Exception {
+    public InvalidCubeException() {}
 
-    public InvalidCubeConfigurationException(string message)
+    public InvalidCubeException(string message)
     : base(message)
     {}
 }
