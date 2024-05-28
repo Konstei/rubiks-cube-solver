@@ -1,4 +1,41 @@
 public class Cube {
+    public Cube () {
+        Faces = new() {
+            new List<Color> {
+                Color.WHITE, Color.WHITE, Color.WHITE,
+                Color.WHITE,                   Color.WHITE,
+                Color.WHITE, Color.WHITE, Color.WHITE
+            },
+            new List<Color> {
+                Color.ORANGE, Color.ORANGE, Color.ORANGE,
+                Color.ORANGE,                    Color.ORANGE,
+                Color.ORANGE, Color.ORANGE, Color.ORANGE
+            },
+            new List<Color> {
+                Color.GREEN, Color.GREEN, Color.GREEN,
+                Color.GREEN,                   Color.GREEN,
+                Color.GREEN, Color.GREEN, Color.GREEN
+            },
+            new List<Color> {
+                Color.RED, Color.RED, Color.RED,
+                Color.RED,                 Color.RED,
+                Color.RED, Color.RED, Color.RED
+            },
+            new List<Color> {
+                Color.BLUE, Color.BLUE, Color.BLUE,
+                Color.BLUE,                  Color.BLUE,
+                Color.BLUE, Color.BLUE, Color.BLUE
+            },
+            new List<Color> {
+                Color.YELLOW, Color.YELLOW, Color.YELLOW,
+                Color.YELLOW,                    Color.YELLOW,
+                Color.YELLOW, Color.YELLOW, Color.YELLOW
+            }
+        };
+        Configure();
+        Validate();
+    }
+
     public Cube(
         List<Color> whiteFace,
         List<Color> orangeFace,

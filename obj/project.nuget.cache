@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "C7ChUSOFkgLdJRvaihYjWFBxunZVa8lAw/4mNKY4BG6slxt2h6aCuxi98hA+TXhaaN5YPoLAG/Dnrj87f+dEnA==",
+  "dgSpecHash": "Zfi2jqleOsg=",
   "success": true,
-  "projectFilePath": "/workspaces/rubiks-cube-solver/Rubik's Cube Solver.csproj",
+  "projectFilePath": "D:\\Codes\\C#\\rubiks-cube-solver\\Rubik's Cube Solver.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

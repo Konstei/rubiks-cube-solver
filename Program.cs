@@ -1,52 +1,22 @@
 ﻿public class Program {
     public static void Main() {
-        Cube cube = new(
-            new List<Cube.Color> {
-                Cube.Color.WHITE, Cube.Color.WHITE, Cube.Color.WHITE,
-                Cube.Color.WHITE,                   Cube.Color.WHITE,
-                Cube.Color.WHITE, Cube.Color.WHITE, Cube.Color.WHITE
-            },
-            new List<Cube.Color> {
-                Cube.Color.ORANGE, Cube.Color.ORANGE, Cube.Color.ORANGE,
-                Cube.Color.ORANGE,                    Cube.Color.ORANGE,
-                Cube.Color.ORANGE, Cube.Color.ORANGE, Cube.Color.ORANGE
-            },
-            new List<Cube.Color> {
-                Cube.Color.GREEN, Cube.Color.GREEN, Cube.Color.GREEN,
-                Cube.Color.GREEN,                   Cube.Color.GREEN,
-                Cube.Color.GREEN, Cube.Color.GREEN, Cube.Color.GREEN
-            },
-            new List<Cube.Color> {
-                Cube.Color.RED, Cube.Color.RED, Cube.Color.RED,
-                Cube.Color.RED,                 Cube.Color.RED,
-                Cube.Color.RED, Cube.Color.RED, Cube.Color.RED
-            },
-            new List<Cube.Color> {
-                Cube.Color.BLUE, Cube.Color.BLUE, Cube.Color.BLUE,
-                Cube.Color.BLUE,                  Cube.Color.BLUE,
-                Cube.Color.BLUE, Cube.Color.BLUE, Cube.Color.BLUE
-            },
-            new List<Cube.Color> {
-                Cube.Color.YELLOW, Cube.Color.YELLOW, Cube.Color.YELLOW,
-                Cube.Color.YELLOW,                    Cube.Color.YELLOW,
-                Cube.Color.YELLOW, Cube.Color.YELLOW, Cube.Color.YELLOW
-            }
-        );
-
-        Move[] mm = {Move.Lr, Move.U2, Move.R2, Move.B2, Move.L, Move.Br, Move.Lr, Move.R, Move.F2, Move.U, Move.R, Move.B, Move.U, Move.D, Move.R2, Move.F, Move.D2, Move.Lr, Move.Fr, Move.U, Move.F, Move.Dr, Move.L, Move.D2, Move.R2};
-        Scramble(cube, mm);
-        cube.Print();
+        Cube scrambled = new();
+        Move[] mm = [Move.Lr, Move.U2, Move.R2, Move.B2, Move.L, Move.Br, Move.Lr, Move.R, Move.F2, Move.U, Move.R, Move.B, Move.U, Move.D, Move.R2, Move.F, Move.D2, Move.Lr, Move.Fr, Move.U, Move.F, Move.Dr, Move.L, Move.D2, Move.R2];
+        Scramble(scrambled, mm);
+        scrambled.Print();
         Console.WriteLine();
 
-        WhiteCross.Solve(cube);
+        Cube cube = scrambled;
+
+        WC.Solve(cube);
+        FL.Solve(cube);
+        SL.Solve(cube);
+        LL.Solve(cube);
+
         cube.Print();
         Console.WriteLine();
-
-        FirstLayer.Solve(cube);
-        cube.Print();
-        Console.WriteLine();
-
-        cube.Moves.Clear();
+        foreach (Move m in ColorsToMoves(cube)) Console.Write($"{m} ");
+        Console.ReadKey();
     }
 
     private static void Scramble(Cube cube, Move[] mm) {
@@ -92,7 +62,41 @@
         return moves;
     }
 
+    private static void ReduceMoveList(Cube initial, Cube final) {
+        Cube cl = initial;
+        Cube cr = cl;
+        List<Cube.Color> reducedMoves = final.Moves;
+
+        int ld = -1;
+
+        for (int ir=0; ir < reducedMoves.Count; ir++) {
+            cr.RotateFace(reducedMoves[ir]);
+            if (cr.Faces.SequenceEqual(cl.Faces)) ld = ir;
+        }
+        {
+            List<Cube.Color> erased = new(ld+1);
+            erased.AddRange(Enumerable.Repeat(Cube.Color.NONE, ld+1));
+            reducedMoves.RemoveRange(0, ld+1);
+            reducedMoves.InsertRange(0, erased);
+        }
+
+        for (int il=0; il < reducedMoves.Count-1; il++) {
+            ld = -1;
+            cl.RotateFace(reducedMoves[il]);
+            cr = cl;
+            for (int ir=il+1; ir < reducedMoves.Count; ir++) {
+                cr.RotateFace(reducedMoves[ir]);
+                if (cr.Faces.SequenceEqual(cl.Faces)) ld = ir;
+            }
+            List<Cube.Color> erased = new(ld+1);
+            erased.AddRange(Enumerable.Repeat(Cube.Color.NONE, ld+1));
+            reducedMoves.RemoveRange(il+1, ld+1);
+            reducedMoves.InsertRange(il+1, erased);
+        }
+    }
+
     enum Move {
+        NONE,
         U, L, D, R, F, B,
         U2, L2, D2, R2, F2, B2,
         Ur, Lr, Dr, Rr, Fr, Br

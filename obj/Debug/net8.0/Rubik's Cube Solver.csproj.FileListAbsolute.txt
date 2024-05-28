@@ -1,0 +1,15 @@
+D:\Codes\C#\rubiks-cube-solver\bin\Debug\net8.0\Rubik's Cube Solver.exe
+D:\Codes\C#\rubiks-cube-solver\bin\Debug\net8.0\Rubik's Cube Solver.deps.json
+D:\Codes\C#\rubiks-cube-solver\bin\Debug\net8.0\Rubik's Cube Solver.runtimeconfig.json
+D:\Codes\C#\rubiks-cube-solver\bin\Debug\net8.0\Rubik's Cube Solver.dll
+D:\Codes\C#\rubiks-cube-solver\bin\Debug\net8.0\Rubik's Cube Solver.pdb
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.GeneratedMSBuildEditorConfig.editorconfig
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.AssemblyInfoInputs.cache
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.AssemblyInfo.cs
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.csproj.CoreCompileInputs.cache
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.sourcelink.json
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.dll
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\refint\Rubik's Cube Solver.dll
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.pdb
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\Rubik's Cube Solver.genruntimeconfig.cache
+D:\Codes\C#\rubiks-cube-solver\obj\Debug\net8.0\ref\Rubik's Cube Solver.dll
