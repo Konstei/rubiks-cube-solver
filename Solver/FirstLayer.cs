@@ -1,6 +1,6 @@
 using static Cube;
 
-public static class FL {
+public static class FirstLayer {
     public static void Solve(Cube cube) { 
         while (!(
             cube.Corners[0].SequenceEqual(new List<Color>() { Color.WHITE, Color.ORANGE, Color.GREEN }) &&

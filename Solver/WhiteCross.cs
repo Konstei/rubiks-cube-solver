@@ -1,6 +1,6 @@
 using static Cube;
 
-public static class WC {
+public static class WhiteCross {
     public static void Solve(Cube cube) {
         for (int e=0; e<4; e++) {
             List<Color> face = cube.Edges.FirstOrDefault(innerList => innerList.Contains(Color.WHITE)) ?? throw new UniverseException("the name of the exception should be self explanatory really");

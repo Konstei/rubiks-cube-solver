@@ -1,11 +1,11 @@
 using static Cube;
 
-public static class LL {
+public static class LastLayer {
     public static void Solve(Cube cube) {
         YellowCross(cube);
         MatchEdges(cube);
-        MatchCorners(cube);
-        OrientCorners(cube);
+        // MatchCorners(cube);
+        // OrientCorners(cube);
     }
 
     private static void YellowCross(Cube cube) {
@@ -85,19 +85,18 @@ public static class LL {
             Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
             Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
             Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
-            Convert.ToInt32(cube.Edges[4][5] == Color.RED) == 2 ||
+            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 2 ||
             Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
             Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
             Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
-            Convert.ToInt32(cube.Edges[4][5] == Color.RED) == 4
-        ) cube.RotateFace(Color.YELLOW);
-        cube.Configure();
+            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 4
+        ) cube.RotateFace(Color.YELLOW, true);
 
         if (
             Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
             Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
             Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
-            Convert.ToInt32(cube.Edges[4][5] == Color.RED) == 4
+            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 4
         ) return;
 
         if (cube.Edges[1][5] == Color.ORANGE && cube.Edges[3][5] == Color.RED) {
@@ -114,7 +113,13 @@ public static class LL {
         else if (cube.Edges[2][5] == Color.GREEN && cube.Edges[3][5] == Color.RED) FourMovesVariation(cube, Color.RED);
         else if (cube.Edges[3][5] == Color.RED && cube.Edges[4][5] == Color.BLUE) FourMovesVariation(cube, Color.BLUE);
         else if (cube.Edges[4][5] == Color.BLUE && cube.Edges[1][5] == Color.ORANGE) FourMovesVariation(cube, Color.ORANGE);
-        cube.Configure();
+
+        // if (
+        //     Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
+        //     Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
+        //     Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
+        //     Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 4
+        // ) return;
     }
 
     private static void MatchCorners(Cube cube) {
@@ -177,7 +182,7 @@ public static class LL {
         cube.RotateFace(face);
         cube.RotateFace(Color.YELLOW); cube.RotateFace(Color.YELLOW);
         cube.RotateFace(face); cube.RotateFace(face); cube.RotateFace(face);
-        cube.RotateFace(Color.YELLOW);
+        cube.RotateFace(Color.YELLOW, true);
     }
 
     private static void PermutationMoves(Cube cube, Color left, Color right) {

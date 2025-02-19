@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Rubik_s_Cube_Solver
-build_property.ProjectDir = D:\Codes\C#\rubiks-cube-solver\
+build_property.ProjectDir = /workspaces/rubiks-cube-solver/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

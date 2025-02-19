@@ -1,6 +1,6 @@
 using static Cube;
 
-public static class SL {
+public static class SecondLayer {
     public static void Solve(Cube cube) {
         while (!(
             cube.Edges[1][2] == Color.ORANGE && cube.Edges[2][1] == Color.GREEN &&

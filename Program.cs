@@ -1,25 +1,36 @@
 ﻿public class Program {
     public static void Main() {
         Cube scrambled = new();
-        Move[] mm = [Move.Lr, Move.U2, Move.R2, Move.B2, Move.L, Move.Br, Move.Lr, Move.R, Move.F2, Move.U, Move.R, Move.B, Move.U, Move.D, Move.R2, Move.F, Move.D2, Move.Lr, Move.Fr, Move.U, Move.F, Move.Dr, Move.L, Move.D2, Move.R2];
+        scrambled.Print();
+        Console.WriteLine();
+
+        List<Move> mm = new();// = [Move.Lr, Move.U2, Move.R2, Move.B2, Move.L, Move.Br, Move.Lr, Move.R, Move.F2, Move.U, Move.R, Move.B, Move.U, Move.D, Move.R2, Move.F, Move.D2, Move.Lr, Move.Fr, Move.U, Move.F, Move.Dr, Move.L, Move.D2, Move.R2];
+        Random random = new();
+        int r = random.Next(0, 100);
+        for (int i=0; i<r; i++) mm.Add((Move)random.Next(1, 19));
+        // Console.WriteLine("populated");
         Scramble(scrambled, mm);
+        // Console.WriteLine("scrambled");
         scrambled.Print();
         Console.WriteLine();
 
         Cube cube = scrambled;
 
-        WC.Solve(cube);
-        FL.Solve(cube);
-        SL.Solve(cube);
-        LL.Solve(cube);
+        // cube.Validate();
+
+        WhiteCross.Solve(cube);
+        FirstLayer.Solve(cube);
+        SecondLayer.Solve(cube);
+        LastLayer.Solve(cube);
 
         cube.Print();
         Console.WriteLine();
         foreach (Move m in ColorsToMoves(cube)) Console.Write($"{m} ");
+        Console.WriteLine();
         Console.ReadKey();
     }
 
-    private static void Scramble(Cube cube, Move[] mm) {
+    private static void Scramble(Cube cube, List<Move> mm) {
         foreach (Move m in mm) {
             switch (m) {
                 case Move.U:  cube.RotateFace(Cube.Color.WHITE);  break;
