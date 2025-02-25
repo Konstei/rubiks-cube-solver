@@ -8,15 +8,13 @@
         Random random = new();
         int r = random.Next(0, 100);
         for (int i=0; i<r; i++) mm.Add((Move)random.Next(1, 19));
-        // Console.WriteLine("populated");
         Scramble(scrambled, mm);
-        // Console.WriteLine("scrambled");
         scrambled.Print();
         Console.WriteLine();
 
         Cube cube = scrambled;
 
-        // cube.Validate();
+        cube.Validate();
 
         WhiteCross.Solve(cube);
         FirstLayer.Solve(cube);
@@ -25,9 +23,9 @@
 
         cube.Print();
         Console.WriteLine();
-        foreach (Move m in ColorsToMoves(cube)) Console.Write($"{m} ");
-        Console.WriteLine();
-        Console.ReadKey();
+        // foreach (Move m in ColorsToMoves(cube)) Console.Write($"{m} ");
+        // Console.WriteLine();
+        // Console.ReadKey();
     }
 
     private static void Scramble(Cube cube, List<Move> mm) {

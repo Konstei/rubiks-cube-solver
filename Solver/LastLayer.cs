@@ -4,8 +4,8 @@ public static class LastLayer {
     public static void Solve(Cube cube) {
         YellowCross(cube);
         MatchEdges(cube);
-        // MatchCorners(cube);
-        // OrientCorners(cube);
+        MatchCorners(cube);
+        OrientCorners(cube);
     }
 
     private static void YellowCross(Cube cube) {
@@ -19,12 +19,28 @@ public static class LastLayer {
                 cube.RotateFace(Color.GREEN);
                 FourMovesBottom(cube, Color.ORANGE);
                 cube.RotateFace(Color.GREEN); cube.RotateFace(Color.GREEN); cube.RotateFace(Color.GREEN, conf: true);
+                if (cube.Edges[5][1] != Color.YELLOW && cube.Edges[5][2] != Color.YELLOW && cube.Edges[5][3] != Color.YELLOW && cube.Edges[5][4] != Color.YELLOW) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[5][2] == Color.YELLOW && cube.Edges[5][4] == Color.YELLOW) {
                 cube.RotateFace(Color.ORANGE);
                 FourMovesBottom(cube, Color.BLUE);
                 cube.RotateFace(Color.ORANGE); cube.RotateFace(Color.ORANGE); cube.RotateFace(Color.ORANGE, conf: true);
+                if (cube.Edges[5][1] != Color.YELLOW && cube.Edges[5][2] != Color.YELLOW && cube.Edges[5][3] != Color.YELLOW && cube.Edges[5][4] != Color.YELLOW) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
 
@@ -32,24 +48,56 @@ public static class LastLayer {
                 cube.RotateFace(Color.BLUE);
                 FourMovesBottom(cube, Color.RED);
                 cube.RotateFace(Color.BLUE); cube.RotateFace(Color.BLUE); cube.RotateFace(Color.BLUE, conf: true);
+                if ((cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) && (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW)) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[5][2] == Color.YELLOW && cube.Edges[5][3] == Color.YELLOW) {
                 cube.RotateFace(Color.ORANGE);
                 FourMovesBottom(cube, Color.BLUE);
                 cube.RotateFace(Color.ORANGE); cube.RotateFace(Color.ORANGE); cube.RotateFace(Color.ORANGE, conf: true);
+                if ((cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) && (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW)) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[5][3] == Color.YELLOW && cube.Edges[5][4] == Color.YELLOW) {
                 cube.RotateFace(Color.GREEN);
                 FourMovesBottom(cube, Color.ORANGE);
                 cube.RotateFace(Color.GREEN); cube.RotateFace(Color.GREEN); cube.RotateFace(Color.GREEN, conf: true);
+                if ((cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) && (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW)) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[5][4] == Color.YELLOW && cube.Edges[5][1] == Color.YELLOW) {
                 cube.RotateFace(Color.RED);
                 FourMovesBottom(cube, Color.GREEN);
                 cube.RotateFace(Color.RED); cube.RotateFace(Color.RED); cube.RotateFace(Color.RED, conf: true);
+                if ((cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) && (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW)) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
 
@@ -57,24 +105,76 @@ public static class LastLayer {
                 cube.RotateFace(Color.GREEN);
                 FourMovesBottom(cube, Color.ORANGE);
                 cube.RotateFace(Color.GREEN); cube.RotateFace(Color.GREEN); cube.RotateFace(Color.GREEN, conf: true);
+                if (
+                    (cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][2] != Color.YELLOW) &&
+                    (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) &&
+                    (cube.Edges[5][3] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW) &&
+                    (cube.Edges[5][4] != Color.YELLOW || cube.Edges[5][1] != Color.YELLOW)
+                ) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[2][5] == Color.YELLOW && cube.Edges[3][5] == Color.YELLOW) {
                 cube.RotateFace(Color.RED);
                 FourMovesBottom(cube, Color.GREEN);
                 cube.RotateFace(Color.RED); cube.RotateFace(Color.RED); cube.RotateFace(Color.RED, conf: true);
+                if (
+                    (cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][2] != Color.YELLOW) &&
+                    (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) &&
+                    (cube.Edges[5][3] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW) &&
+                    (cube.Edges[5][4] != Color.YELLOW || cube.Edges[5][1] != Color.YELLOW)
+                ) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[3][5] == Color.YELLOW && cube.Edges[4][5] == Color.YELLOW) {
                 cube.RotateFace(Color.BLUE);
                 FourMovesBottom(cube, Color.RED);
                 cube.RotateFace(Color.BLUE); cube.RotateFace(Color.BLUE); cube.RotateFace(Color.BLUE, conf: true);
+                if (
+                    (cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][2] != Color.YELLOW) &&
+                    (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) &&
+                    (cube.Edges[5][3] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW) &&
+                    (cube.Edges[5][4] != Color.YELLOW || cube.Edges[5][1] != Color.YELLOW)
+                ) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
             if (cube.Edges[4][5] == Color.YELLOW && cube.Edges[1][5] == Color.YELLOW) {
                 cube.RotateFace(Color.ORANGE);
                 FourMovesBottom(cube, Color.BLUE);
                 cube.RotateFace(Color.ORANGE); cube.RotateFace(Color.ORANGE); cube.RotateFace(Color.ORANGE, conf: true);
+                if (
+                    (cube.Edges[5][1] != Color.YELLOW || cube.Edges[5][2] != Color.YELLOW) &&
+                    (cube.Edges[5][2] != Color.YELLOW || cube.Edges[5][3] != Color.YELLOW) &&
+                    (cube.Edges[5][3] != Color.YELLOW || cube.Edges[5][4] != Color.YELLOW) &&
+                    (cube.Edges[5][4] != Color.YELLOW || cube.Edges[5][1] != Color.YELLOW)
+                ) {
+                    throw new InvalidCubeException(
+                        "Edge permutation error detected: The cube's edge orientations are inconsistent, making it unsolvable.\n" +
+                        "To verify: Count the number of edge swaps needed to restore a valid permutation.\n" +
+                        "If the total is odd, the cube cannot be solved in a legal state.\n" +
+                        "Please check for incorrect sticker placements or reassembly errors, then try again."
+                    );
+                }
                 continue;
             }
         }
@@ -85,11 +185,11 @@ public static class LastLayer {
             Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
             Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
             Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
-            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 2 ||
+            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) != 2 &&
             Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
             Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
             Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
-            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 4
+            Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) != 4
         ) cube.RotateFace(Color.YELLOW, true);
 
         if (
@@ -109,17 +209,11 @@ public static class LastLayer {
             FourMovesVariation(cube, Color.ORANGE);
             FourMovesVariation(cube, Color.RED);
         }
+
         else if (cube.Edges[1][5] == Color.ORANGE && cube.Edges[2][5] == Color.GREEN) FourMovesVariation(cube, Color.GREEN);
         else if (cube.Edges[2][5] == Color.GREEN && cube.Edges[3][5] == Color.RED) FourMovesVariation(cube, Color.RED);
         else if (cube.Edges[3][5] == Color.RED && cube.Edges[4][5] == Color.BLUE) FourMovesVariation(cube, Color.BLUE);
         else if (cube.Edges[4][5] == Color.BLUE && cube.Edges[1][5] == Color.ORANGE) FourMovesVariation(cube, Color.ORANGE);
-
-        // if (
-        //     Convert.ToInt32(cube.Edges[1][5] == Color.ORANGE) +
-        //     Convert.ToInt32(cube.Edges[2][5] == Color.GREEN) +
-        //     Convert.ToInt32(cube.Edges[3][5] == Color.RED) +
-        //     Convert.ToInt32(cube.Edges[4][5] == Color.BLUE) == 4
-        // ) return;
     }
 
     private static void MatchCorners(Cube cube) {
